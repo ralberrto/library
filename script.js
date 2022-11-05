@@ -1,4 +1,6 @@
-let myLibrary = [new Book("Republica", "Plato", 1081, true), new Book("Robinson Crusoe", "Daniel Defoe", 701, false)];
+let myLibrary = [new Book("Republica", "Platón", 1081, true),
+    new Book("Robinson Crusoe", "Daniel Defoe", 701, false),
+    new Book("El discourso del Método", "René Descartes", 982, false)];
 
 
 displayCards()
@@ -43,9 +45,9 @@ function displayCards() {
         card = document.createElement("div");
         card.classList.toggle("card");
         
-        appendField(card, entry, "title", "title");
-        appendField(card, entry, "author", "author");
-        appendField(card, entry, "pages", "pages");
+        appendField(card, entry, "título", "title");
+        appendField(card, entry, "autor", "author");
+        appendField(card, entry, "páginas", "pages");
 
         addIsRead(card, entry)
 
@@ -70,6 +72,6 @@ function addIsRead(element, entry) {
     let paragraph;
     paragraph = document.createElement("p");
     paragraph.classList.toggle("is-read");
-    paragraph.textContent = entry.isRead ? "read" : "not read";
+    paragraph.textContent = entry.isRead ? "Leído" : "No leído";
     element.appendChild(paragraph);
 }

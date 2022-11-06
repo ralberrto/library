@@ -26,7 +26,7 @@ header h1 {
 section {
     box-sizing: border-box;
     padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-bottom: calc(1rem + 2*1rem + 2*0.5rem + 1.5rem); /* Own, padding footer, padding button, text button */
     padding-left: max(1em, calc((100vw - var(--content-width))/2));
     padding-right: max(1em, calc((100vw - var(--content-width))/2));
 }

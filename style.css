@@ -1,0 +1,41 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    height: 8vh;
+    padding: 0 2rem;
+    box-shadow: 0 4px 4px -4px black;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+section {
+    padding: 2rem 2rem;
+}
+
+#card-cont {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 1rem;
+}
+
+.card {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+
+    flex: 1;
+
+    background-color: antiquewhite;
+    padding: 1rem;
+}
+
+.card .is-read {
+    grid-column: 1 / -1;
+}

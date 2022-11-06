@@ -84,6 +84,7 @@ footer {
 footer button {
     padding: 0.5rem 1rem;
     font-size: 1.5rem;
+    font-family: 'Courier New', Courier, monospace;
     border-radius: 0.5rem;
     border: 0;
 }
@@ -91,4 +92,9 @@ footer button {
 footer button:hover {
     color: white;
     background-color: brown;
+}
+
+footer button:focus {
+    outline: solid;
+    outline-color: brown;
 }

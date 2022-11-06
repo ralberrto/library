@@ -1,3 +1,7 @@
+:root {
+    --content-width: 960px;
+}
+
 body {
     font-family: 'Courier New', Courier, monospace;
     margin: 0;
@@ -7,7 +11,10 @@ header {
     display: flex;
     align-items: center;
     height: 8vh;
-    padding: 0 1rem;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: max(1em, calc((100vw - var(--content-width))/2));
+    padding-right: max(1em, calc((100vw - var(--content-width))/2));
     box-shadow: 0 4px 4px -4px black;
 }
 
@@ -18,7 +25,6 @@ header h1 {
 
 section {
     box-sizing: border-box;
-    --content-width: 960px;
     padding-top: 1rem;
     padding-bottom: 1rem;
     padding-left: max(1em, calc((100vw - var(--content-width))/2));

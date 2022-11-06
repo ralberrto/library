@@ -18,8 +18,9 @@ header h1 {
 
 section {
     box-sizing: border-box;
-    --content-width: 920px;
+    --content-width: 960px;
     padding-top: 1rem;
+    padding-bottom: 1rem;
     padding-left: max(1em, calc((100vw - var(--content-width))/2));
     padding-right: max(1em, calc((100vw - var(--content-width))/2));
 }

@@ -92,6 +92,7 @@ footer button {
     font-family: 'Courier New', Courier, monospace;
     border-radius: 0.5rem;
     border: 0;
+    color: black;
 }
 
 footer button:hover {
@@ -118,8 +119,49 @@ footer button:focus {
 }
 
 .modal.on {
-    display: block;
-    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: antiquewhite;
+    box-shadow: 1px 1px 3px brown;
+}
+
+.form,
+.form-field:not(.checkbox) {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-header {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 2em;
+}
+
+.form-field {
+    margin-bottom: 2em;
+}
+
+.form-field label {
+    color: gray;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+
+.form-field input[type="text"],
+.form-field input[type="number"] {
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    background-color: #eeeeee;
+    outline: none;
+    border: 2px solid gray;
+}
+
+.form-field input[type="text"]:focus,
+.form-field input[type="number"]:focus {
+    outline: brown solid 1px;
+    border: 2px solid brown;
 }
 
 #veil {

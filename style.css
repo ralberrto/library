@@ -7,7 +7,7 @@ header {
     display: flex;
     align-items: center;
     height: 8vh;
-    padding: 0 2rem;
+    padding: 0 1rem;
     box-shadow: 0 4px 4px -4px black;
 }
 
@@ -17,12 +17,16 @@ header h1 {
 }
 
 section {
-    padding: 2rem 2rem;
+    box-sizing: border-box;
+    --content-width: 920px;
+    padding-top: 1rem;
+    padding-left: max(1em, calc((100vw - var(--content-width))/2));
+    padding-right: max(1em, calc((100vw - var(--content-width))/2));
 }
 
 #card-cont {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     grid-gap: 1rem;
 }
 
@@ -34,8 +38,25 @@ section {
 
     background-color: antiquewhite;
     padding: 1rem;
+
+    box-shadow: 1px 1px 3px brown;
 }
 
 .card .is-read {
     grid-column: 1 / -1;
+}
+
+.card .field-name {
+    justify-self: end;
+    padding-right: 1rem;
+    color: gray;
+}
+
+.card .field-value {
+    font-weight: bold;
+}
+
+.card .is-read {
+    margin-top: 2rem;
+    justify-self: center;
 }

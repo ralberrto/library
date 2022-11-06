@@ -63,6 +63,11 @@ section {
     font-weight: bold;
 }
 
+.card .field-value.title::before,
+.card .field-value.title::after {
+    content: "\"";
+}
+
 .card .is-read {
     margin-top: 2rem;
     justify-self: center;
@@ -125,4 +130,8 @@ footer button:focus {
     width: 100%;
     height: 100%;
     background-color: #000000aa;
+}
+
+#veil.on {
+    display: block;
 }

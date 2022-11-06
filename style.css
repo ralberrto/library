@@ -67,3 +67,28 @@ section {
     margin-top: 2rem;
     justify-self: center;
 }
+
+footer {
+    display: flex;
+    position: fixed;
+    justify-content: center;
+    box-sizing: border-box;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    background-color: #ffffff;
+    box-shadow: 0 -2px 4px -4px black;
+}
+
+footer button {
+    padding: 0.5rem 1rem;
+    font-size: 1.5rem;
+    border-radius: 0.5rem;
+    border: 0;
+}
+
+footer button:hover {
+    color: white;
+    background-color: brown;
+}

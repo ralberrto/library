@@ -1,6 +1,6 @@
 let myLibrary = [new Book("Republica", "Platón", 1081, true),
     new Book("Robinson Crusoe", "Daniel Defoe", 701, false),
-    new Book("El Dicurso del Método", "René Descartes", 982, false),
+    new Book("El Discurso del Método", "René Descartes", 982, false),
     new Book("Asesinato en el Expreso de Oriente", "Agatha Christe", 492, true)];
 
 

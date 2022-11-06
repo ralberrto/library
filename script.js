@@ -61,10 +61,11 @@ function appendField(element, entry, fieldTitle, fieldName) {
     let value = document.createElement("p");
 
     field.classList.toggle("field-name");
-    field.textContent = fieldTitle;
+    field.textContent = fieldTitle; 
     element.appendChild(field);
 
     value.classList.toggle("field-value");
+    fieldName === "title" ? value.classList.toggle("title") : undefined;
     value.textContent = entry[fieldName];
     element.appendChild(value);
 }

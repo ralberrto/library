@@ -3,6 +3,18 @@ let myLibrary = [new Book("Republica", "Platón", 1081, true),
     new Book("El Discurso del Método", "René Descartes", 982, false),
     new Book("Asesinato en el Expreso de Oriente", "Agatha Christe", 492, true)];
 
+const veil = document.getElementById("veil");
+const addModal = document.getElementById("add-modal");
+const addBtn = document.getElementById("add-btn");
+addBtn.addEventListener("click", () => {
+    veil.classList.toggle("on"); 
+    addModal.classList.toggle("on");
+    }
+);
+veil.addEventListener("click", () => {
+    veil.classList.toggle("on");
+    addModal.classList.toggle("on");
+})
 
 displayCards()
 

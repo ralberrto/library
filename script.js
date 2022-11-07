@@ -9,22 +9,36 @@ const addBtn = document.getElementById("add-btn");
 const addBookForm = document.getElementById("add-book");
 const commonInputs = Array.from(document.querySelectorAll(".form-field.common input"));
 
-veil.addEventListener("click", () => {
-    veil.classList.toggle("on");
-    addModal.classList.toggle("on");
-});
-
-addBtn.addEventListener("click", () => {
-    veil.classList.toggle("on"); 
-    addModal.classList.toggle("on");
-    });
+veil.addEventListener("click", toggleAddBookModal);
+addBtn.addEventListener("click", toggleAddBookModal);
 
 addBookForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    commonInputs.map(x => x.classList.add("attempted"));
+    submitForm(commonInputs) ? commonInputs.map(x => x.classList.remove("attempted")) :
+        commonInputs.map(x => x.classList.add("attempted"));
 });
 
 displayCards()
+
+function submitForm(requiredInputElements) {
+    let successful;
+    if ( requiredInputElements.every(isValid) ) {
+        toggleAddBookModal(undefined, true);
+        successful = true;
+    }
+    else { successful = false; }
+    return successful;
+}
+
+function isValid(inputElement) {
+    return inputElement.validity.valid;
+}
+
+function toggleAddBookModal(event, reset = false) {
+    veil.classList.toggle("on");
+    addModal.classList.toggle("on");
+    reset ? addBookForm.reset() : undefined;
+}
 
 function Book(title, author, pages, isRead) {
     this.title = title;

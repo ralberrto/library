@@ -7,7 +7,9 @@ const veil = document.getElementById("veil");
 const addModal = document.getElementById("add-modal");
 const addBtn = document.getElementById("add-btn");
 const addBookForm = document.getElementById("add-book");
-const commonInputs = Array.from(document.querySelectorAll(".form-field.common input"));
+const addBookInputs = Array.from(document.querySelectorAll("#add-book input"));
+const commonInputs = addBookInputs.filter(x => x.type !== "checkbox");
+
 
 veil.addEventListener("click", toggleAddBookModal);
 addBtn.addEventListener("click", toggleAddBookModal);
@@ -24,14 +26,31 @@ addBookForm.addEventListener("submit", (event) => {
 
 displayCards()
 
-function submitForm(requiredInputElements) {
-    let successful;
-    if ( requiredInputElements.every(isValid) ) {
-        toggleAddBookModal(undefined, true);
-        successful = true;
+function captureBookInput() {
+    let titleElement = document.querySelector("#add-book #title");
+    let authorElement = document.querySelector("#add-book #author");
+    let pagesElement = document.querySelector("#add-book #pages");
+    let isReadElement = document.querySelector("#add-book #is-read");
+    let [title, author, pages, isRead] = [titleElement, authorElement, pagesElement,
+        isReadElement].map(x => takeContentFromElement(x));
+    console.table([title, author, pages, isRead]);
+}
+
+function takeContentFromElement(element) {
+    if ( element.getAttribute("type") === "checkbox" ) {
+        return element.checked;
     }
-    else { successful = false; }
-    return successful;
+    else { return element.value; }
+}
+
+function submitForm(requiredInputElements) {
+    let isFormValid = requiredInputElements.every(isValid);
+    if ( isFormValid ) {
+        //addBookInputs.map(x => { console.log(takeContentFromElement(x)) });
+        captureBookInput();
+        toggleAddBookModal(undefined, true);
+    }
+    return isFormValid;
 }
 
 function isValid(inputElement) {

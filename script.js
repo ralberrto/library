@@ -3,6 +3,7 @@ let myLibrary = [new Book("Republica", "Platón", 1081, true),
     new Book("El Discurso del Método", "René Descartes", 982, false),
     new Book("Asesinato en el Expreso de Oriente", "Agatha Christe", 492, true)];
 
+const cardContainer = document.getElementById("card-cont");
 const veil = document.getElementById("veil");
 const addModal = document.getElementById("add-modal");
 const addBtn = document.getElementById("add-btn");
@@ -10,6 +11,7 @@ const addBookForm = document.getElementById("add-book");
 const addBookInputs = Array.from(document.querySelectorAll("#add-book input"));
 const commonInputs = addBookInputs.filter(x => x.type !== "checkbox");
 
+displayCards()
 
 veil.addEventListener("click", toggleAddBookModal);
 addBtn.addEventListener("click", toggleAddBookModal);
@@ -24,8 +26,6 @@ addBookForm.addEventListener("submit", (event) => {
     }
 });
 
-displayCards()
-
 function captureBookInput() {
     let titleElement = document.querySelector("#add-book #title");
     let authorElement = document.querySelector("#add-book #author");
@@ -33,7 +33,7 @@ function captureBookInput() {
     let isReadElement = document.querySelector("#add-book #is-read");
     let [title, author, pages, isRead] = [titleElement, authorElement, pagesElement,
         isReadElement].map(x => takeContentFromElement(x));
-    console.table([title, author, pages, isRead]);
+    return new Book(title, author, pages, isRead);
 }
 
 function takeContentFromElement(element) {
@@ -47,7 +47,8 @@ function submitForm(requiredInputElements) {
     let isFormValid = requiredInputElements.every(isValid);
     if ( isFormValid ) {
         //addBookInputs.map(x => { console.log(takeContentFromElement(x)) });
-        captureBookInput();
+        let newBook = captureBookInput();
+        addBookToLibrary(newBook);
         toggleAddBookModal(undefined, true);
     }
     return isFormValid;
@@ -74,29 +75,13 @@ function Book(title, author, pages, isRead) {
     };
 }
 
-function addBookToLibrary() {
-    let title = prompt("Enter book's title:");
-    let author = prompt("Enter book's author:")
-    let pages = prompt("Enter number of pages:")
-    let read = "";
-    let isRead;
-    while ( read.length !== 1 ) {
-        read = prompt("Have you read it? (y/n)");
-    }
-    read = read.toLowerCase();
-    if ( read === "y" ) {
-        isRead = true;
-    }
-    else if ( read === "n" ) {
-       isRead = false;
-    }
-    newBook = new Book(title, author, pages, isRead);
-
-    myLibrary.push(newBook)
+function addBookToLibrary(bookObject) {
+    myLibrary.push(bookObject)
+    cardContainer.innerHTML = "";
+    displayCards();
 }
 
 function displayCards() {
-    const cardContainer = document.getElementById("card-cont");
     let card, entry;
     for ( let i = 0 ; i < myLibrary.length ; i++ ) {
         entry = myLibrary[i];

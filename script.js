@@ -14,8 +14,12 @@ addBtn.addEventListener("click", toggleAddBookModal);
 
 addBookForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    submitForm(commonInputs) ? commonInputs.map(x => x.classList.remove("attempted")) :
+    if ( submitForm(commonInputs) ) {
+        commonInputs.map(x => x.classList.remove("attempted"));
+    }
+    else {
         commonInputs.map(x => x.classList.add("attempted"));
+    }
 });
 
 displayCards()

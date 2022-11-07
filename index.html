@@ -22,16 +22,16 @@
 
     <div id="add-modal" class="modal">
         <p class="form-header">agregar libro</p>
-        <form id="add-book" action="" method="get">
-            <div class="form-field">
+        <form id="add-book" action="" method="get" novalidate>
+            <div class="form-field common">
                 <label for="title">título:<span aria-label="required">*</span></label>
                 <input type="text" id="title" name="author" required/>
             </div>
-            <div class="form-field">
+            <div class="form-field common">
                 <label for="author">autor:<span aria-label="required">*</span></label>
                 <input type="text" id="author" name="author" required/>
             </div>
-            <div class="form-field">
+            <div class="form-field common">
                 <label for="pages">número de páginas:<span aria-label="required">*</span></label>
                 <input type="number" id="pages" name="author" min="1" step="1" required/>
             </div>

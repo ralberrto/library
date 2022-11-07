@@ -6,15 +6,23 @@ let myLibrary = [new Book("Republica", "Platón", 1081, true),
 const veil = document.getElementById("veil");
 const addModal = document.getElementById("add-modal");
 const addBtn = document.getElementById("add-btn");
-addBtn.addEventListener("click", () => {
-    veil.classList.toggle("on"); 
-    addModal.classList.toggle("on");
-    }
-);
+const addBookForm = document.getElementById("add-book");
+const commonInputs = Array.from(document.querySelectorAll(".form-field.common input"));
+
 veil.addEventListener("click", () => {
     veil.classList.toggle("on");
     addModal.classList.toggle("on");
-})
+});
+
+addBtn.addEventListener("click", () => {
+    veil.classList.toggle("on"); 
+    addModal.classList.toggle("on");
+    });
+
+addBookForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    commonInputs.map(x => x.classList.add("attempted"));
+});
 
 displayCards()
 

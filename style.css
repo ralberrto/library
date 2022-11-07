@@ -120,6 +120,11 @@ button:focus {
     outline-color: brown;
 }
 
+form button:focus {
+    outline: solid;
+    outline-color: #4ADE80;
+}
+
 .modal {
     display: none;
     position: fixed;

@@ -1,7 +1,6 @@
 let myLibrary = [new Book("Republica", "Platón", 1081, true),
     new Book("Robinson Crusoe", "Daniel Defoe", 701, false),
-    new Book("El Discurso del Método", "René Descartes", 982, false),
-    new Book("Asesinato en el Expreso de Oriente", "Agatha Christe", 492, true)];
+    new Book("El Discurso del Método", "René Descartes", 982, false)];
 
 const cardContainer = document.getElementById("card-cont");
 const veil = document.getElementById("veil");
@@ -92,7 +91,7 @@ function displayCards() {
         appendField(card, entry, "autor", "author");
         appendField(card, entry, "páginas", "pages");
 
-        addIsRead(card, entry)
+        addButtons(card, entry)
 
         cardContainer.appendChild(card);
     }
@@ -112,10 +111,27 @@ function appendField(element, entry, fieldTitle, fieldName) {
     element.appendChild(value);
 }
 
-function addIsRead(element, entry) {
-    let paragraph;
-    paragraph = document.createElement("p");
-    paragraph.classList.toggle("is-read");
-    paragraph.textContent = entry.isRead ? "Leído" : "No leído";
-    element.appendChild(paragraph);
+function addButtons(element, entry) {
+    let div, isRead, remove;
+    div = document.createElement("div");
+    div.classList.toggle("card-buttons");
+    isRead = document.createElement("button");
+    remove = document.createElement("button");
+    isRead.classList.toggle("is-read");
+    remove.classList.toggle("remove");
+    setReadButtonAttributes(isRead, entry.isRead);
+    remove.textContent = "Remove";
+    isRead.setAttribute("type", "button");
+    remove.setAttribute("type", "button");
+    div.appendChild(isRead);
+    div.appendChild(remove);
+
+    element.appendChild(div);
+}
+
+function setReadButtonAttributes(buttonElement, status) {
+    let value;
+    buttonElement.textContent = status ? "Leído" : "No leído";
+    value = status ? "read" : "not-read";
+    buttonElement.setAttribute("status", value);
 }

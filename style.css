@@ -52,9 +52,11 @@ section {
     box-shadow: 1px 1px 3px brown;
 }
 
-.card .is-read {
+.card .card-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     grid-column: 1 / -1;
-    justify-self: center;
+    grid-gap: 1rem;
 }
 
 .card .field-name {
@@ -70,6 +72,14 @@ section {
 .card .field-value.title::before,
 .card .field-value.title::after {
     content: "\"";
+}
+
+.card-buttons .is-read[status="read"] {
+    background-color: #86EFAC;
+}
+
+.card-buttons .is-read[status="not-read"] {
+    background-color: #FDA4AF;
 }
 
 footer {

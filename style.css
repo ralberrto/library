@@ -26,7 +26,8 @@ header h1 {
 section {
     box-sizing: border-box;
     padding-top: 1rem;
-    padding-bottom: calc(1rem + 2*1rem + 2*0.5rem + 1.5rem); /* Own, padding footer, padding button, text button */
+    padding-bottom: calc(1rem + 2*1rem + 2*0.5rem + 1.5rem); /* Own (the rest are for the footer),
+    padding footer, padding button, text button; Because it covered some content.*/
     padding-left: max(1em, calc((100vw - var(--content-width))/2));
     padding-right: max(1em, calc((100vw - var(--content-width))/2));
 }
@@ -35,13 +36,15 @@ section {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     grid-gap: 1rem;
+    /* justify-items: center; */
 }
 
 .card {
     display: grid;
     grid-template-columns: 1fr 2fr;
-
-    flex: 1;
+    /*
+    box-sizing: border-box;
+    width: min(260px, 100%);*/
 
     background-color: antiquewhite;
     padding: 1rem;
@@ -51,6 +54,7 @@ section {
 
 .card .is-read {
     grid-column: 1 / -1;
+    justify-self: center;
 }
 
 .card .field-name {
@@ -66,11 +70,6 @@ section {
 .card .field-value.title::before,
 .card .field-value.title::after {
     content: "\"";
-}
-
-.card .is-read {
-    margin-top: 2rem;
-    justify-self: center;
 }
 
 footer {
@@ -133,6 +132,10 @@ footer button:focus {
     flex-direction: column;
 }
 
+.form {
+    justify-content: space-around;
+}
+
 .form-header {
     font-size: 1.5em;
     font-weight: bold;
@@ -140,7 +143,7 @@ footer button:focus {
 }
 
 .form-field {
-    margin-bottom: 2em;
+    margin-bottom: 1em;
 }
 
 .form-field label {
@@ -160,8 +163,8 @@ footer button:focus {
 
 .form-field input[type="text"]:focus,
 .form-field input[type="number"]:focus {
-    outline: brown solid 1px;
-    border: 2px solid brown;
+    outline: none;
+    border: 3px solid brown;
 }
 
 #veil {

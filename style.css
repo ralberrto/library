@@ -91,6 +91,7 @@ button {
     border-radius: 0.5rem;
     border: 0;
     color: black;
+    font-weight: bold;
 }
 
 footer button {
@@ -126,7 +127,8 @@ button:focus {
     top: 50%;
     left: 50%;
     width: max(40%, 300px);
-    height: max(70%, 360px);
+    height: min(max-content, 80%);
+    padding: 2rem;
     overflow: auto;
     text-align: center;
     transform: translate(-50%, -50%) scale(1);
@@ -167,8 +169,7 @@ button:focus {
     margin-bottom: 0.5em;
 }
 
-.form-field input[type="text"],
-.form-field input[type="number"] {
+.form-field.common input {
     padding: 0.5rem 1rem;
     border-radius: 10px;
     background-color: #eeeeee;
@@ -176,10 +177,19 @@ button:focus {
     border: 2px solid gray;
 }
 
-.form-field input[type="text"]:focus,
-.form-field input[type="number"]:focus {
+.form-field.common input:focus {
     outline: none;
     border: 3px solid brown;
+}
+
+.form-field.common input:valid {
+    background-color: #86EFAC;
+    border-color: #4ADE80;
+}
+
+.form-field.common input.attempted:invalid {
+    background-color: #FDA4AF;
+    border-color: #FB7185;
 }
 
 .form-field input[type="checkbox"] {

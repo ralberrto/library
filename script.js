@@ -12,13 +12,19 @@ const commonInputs = addBookInputs.filter(x => x.type !== "checkbox");
 
 displayCards()
 
-let isReadBtns = Array.from(document.querySelectorAll(".card .is-read"));
-isReadBtns.map(element => element.addEventListener("click", switchReadStatus));
-let removeBtns = Array.from(document.querySelectorAll(".card .remove"));
-removeBtns.map(element => element.addEventListener("click", removeCard))
+let isReadBtns;
+let removeBtns;
+locateCardButtons();
 
 veil.addEventListener("click", toggleAddBookModal);
 addBtn.addEventListener("click", toggleAddBookModal);
+
+function locateCardButtons() {
+    removeBtns = Array.from(document.querySelectorAll(".card .remove"));
+    removeBtns.map(element => element.addEventListener("click", removeCard))
+    isReadBtns = Array.from(document.querySelectorAll(".card .is-read"));
+    isReadBtns.map(element => element.addEventListener("click", switchReadStatus));
+}
 
 function removeCard() {
     let index= Number(this.getAttribute("index").substring(1));
@@ -26,10 +32,7 @@ function removeCard() {
     myLibrary.splice(index, 1);
     console.table(myLibrary);
     displayCards();
-    removeBtns = Array.from(document.querySelectorAll(".card .remove"));
-    removeBtns.map(element => element.addEventListener("click", removeCard))
-    isReadBtns = Array.from(document.querySelectorAll(".card .is-read"));
-    isReadBtns.map(element => element.addEventListener("click", switchReadStatus));
+    locateCardButtons();
 }
 
 function switchReadStatus() {
@@ -107,6 +110,7 @@ function addBookToLibrary(bookObject) {
     myLibrary.push(bookObject)
     clearCardContainer();
     displayCards();
+    locateCardButtons();
 }
 
 function clearCardContainer() {

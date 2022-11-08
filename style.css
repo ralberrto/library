@@ -78,8 +78,26 @@ section {
     background-color: #86EFAC;
 }
 
+.card-buttons .is-read[status="read"]:focus {
+    outline: solid;
+    outline-color: #4ADE80;
+}
+
+.card-buttons .is-read[status="read"]:hover {
+    background-color: #4ADE80;
+}
+
 .card-buttons .is-read[status="not-read"] {
     background-color: #FDA4AF;
+}
+
+.card-buttons .is-read[status="not-read"]:focus {
+    outline: solid;
+    outline-color: #FB7185;
+}
+
+.card-buttons .is-read[status="not-read"]:hover {
+    background-color: #FB7185;
 }
 
 footer {

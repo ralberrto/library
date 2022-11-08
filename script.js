@@ -159,7 +159,7 @@ function addButtons(element, entry, index) {
     removeBtn.classList.toggle("remove");
     setButtonAttributes(isReadBtn, entry.isRead, index);
     setButtonAttributes(removeBtn, undefined, index);
-    removeBtn.textContent = "Remove";
+    removeBtn.textContent = "Eliminar";
     isReadBtn.setAttribute("type", "button");
     removeBtn.setAttribute("type", "button");
     div.appendChild(isReadBtn);

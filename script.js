@@ -66,7 +66,7 @@ function takeContentFromElement(element) {
     if ( element.getAttribute("type") === "checkbox" ) {
         return element.checked;
     }
-    else { return element.value; }
+    else { return element.value.trim(); }
 }
 
 function submitForm(requiredInputElements) {

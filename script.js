@@ -12,8 +12,18 @@ const commonInputs = addBookInputs.filter(x => x.type !== "checkbox");
 
 displayCards()
 
+const isReadBtns = Array.from(document.querySelectorAll(".card .is-read"));
+isReadBtns.map(element => element.addEventListener("click", switchReadStatus));
+
 veil.addEventListener("click", toggleAddBookModal);
 addBtn.addEventListener("click", toggleAddBookModal);
+
+function switchReadStatus() {
+    let index = Number(this.getAttribute("index").substring(1));
+    let card = myLibrary[index];
+    let status = card.switchStatus();
+    setButtonAttributes(this, status, index);
+}
 
 addBookForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -72,16 +82,26 @@ function Book(title, author, pages, isRead) {
         if ( this.isRead ) { read = "read" } else { read = "not read yet" }
         return `The ${this.title} by ${this.author}, ${this.pages} pages, ${read}.`;
     };
+    this.switchStatus = () => {
+        if (this.isRead ) { this.isRead = false; }
+        else { this.isRead = true; }
+        return this.isRead;
+    }
 }
 
 function addBookToLibrary(bookObject) {
     myLibrary.push(bookObject)
-    cardContainer.innerHTML = "";
+    clearCardContainer();
     displayCards();
+}
+
+function clearCardContainer() {
+    cardContainer.innerHTML = "";
 }
 
 function displayCards() {
     let card, entry;
+    clearCardContainer();
     for ( let i = 0 ; i < myLibrary.length ; i++ ) {
         entry = myLibrary[i];
         card = document.createElement("div");
@@ -91,7 +111,7 @@ function displayCards() {
         appendField(card, entry, "autor", "author");
         appendField(card, entry, "páginas", "pages");
 
-        addButtons(card, entry)
+        addButtons(card, entry, i)
 
         cardContainer.appendChild(card);
     }
@@ -111,27 +131,31 @@ function appendField(element, entry, fieldTitle, fieldName) {
     element.appendChild(value);
 }
 
-function addButtons(element, entry) {
-    let div, isRead, remove;
+function addButtons(element, entry, index) {
+    let div, isReadBtn, removeBtn;
     div = document.createElement("div");
     div.classList.toggle("card-buttons");
-    isRead = document.createElement("button");
-    remove = document.createElement("button");
-    isRead.classList.toggle("is-read");
-    remove.classList.toggle("remove");
-    setReadButtonAttributes(isRead, entry.isRead);
-    remove.textContent = "Remove";
-    isRead.setAttribute("type", "button");
-    remove.setAttribute("type", "button");
-    div.appendChild(isRead);
-    div.appendChild(remove);
+    isReadBtn = document.createElement("button");
+    removeBtn = document.createElement("button");
+    isReadBtn.classList.toggle("is-read");
+    removeBtn.classList.toggle("remove");
+    setButtonAttributes(isReadBtn, entry.isRead, index);
+    setButtonAttributes(removeBtn, undefined, index);
+    removeBtn.textContent = "Remove";
+    isReadBtn.setAttribute("type", "button");
+    removeBtn.setAttribute("type", "button");
+    div.appendChild(isReadBtn);
+    div.appendChild(removeBtn);
 
     element.appendChild(div);
 }
 
-function setReadButtonAttributes(buttonElement, status) {
+function setButtonAttributes(buttonElement, status, index) {
     let value;
-    buttonElement.textContent = status ? "Leído" : "No leído";
-    value = status ? "read" : "not-read";
-    buttonElement.setAttribute("status", value);
+    if ( Array.from(buttonElement.classList).some(x => x === "is-read") ) {
+        buttonElement.textContent = status ? "Leído" : "No leído";
+        value = status ? "read" : "not-read";
+        buttonElement.setAttribute("status", value);
+    }
+    buttonElement.setAttribute("index", "i" + String(index));
 }

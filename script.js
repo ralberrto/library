@@ -12,11 +12,25 @@ const commonInputs = addBookInputs.filter(x => x.type !== "checkbox");
 
 displayCards()
 
-const isReadBtns = Array.from(document.querySelectorAll(".card .is-read"));
+let isReadBtns = Array.from(document.querySelectorAll(".card .is-read"));
 isReadBtns.map(element => element.addEventListener("click", switchReadStatus));
+let removeBtns = Array.from(document.querySelectorAll(".card .remove"));
+removeBtns.map(element => element.addEventListener("click", removeCard))
 
 veil.addEventListener("click", toggleAddBookModal);
 addBtn.addEventListener("click", toggleAddBookModal);
+
+function removeCard() {
+    let index= Number(this.getAttribute("index").substring(1));
+    console.table(myLibrary)
+    myLibrary.splice(index, 1);
+    console.table(myLibrary);
+    displayCards();
+    removeBtns = Array.from(document.querySelectorAll(".card .remove"));
+    removeBtns.map(element => element.addEventListener("click", removeCard))
+    isReadBtns = Array.from(document.querySelectorAll(".card .is-read"));
+    isReadBtns.map(element => element.addEventListener("click", switchReadStatus));
+}
 
 function switchReadStatus() {
     let index = Number(this.getAttribute("index").substring(1));

@@ -78,26 +78,8 @@ section {
     background-color: #86EFAC;
 }
 
-.card-buttons .is-read[status="read"]:focus {
-    outline: solid;
-    outline-color: #4ADE80;
-}
-
-.card-buttons .is-read[status="read"]:hover {
-    background-color: #4ADE80;
-}
-
 .card-buttons .is-read[status="not-read"] {
     background-color: #FDA4AF;
-}
-
-.card-buttons .is-read[status="not-read"]:focus {
-    outline: solid;
-    outline-color: #FB7185;
-}
-
-.card-buttons .is-read[status="not-read"]:hover {
-    background-color: #FB7185;
 }
 
 footer {
@@ -133,19 +115,9 @@ form button {
     font-size: 1.2rem;
 }
 
-button:hover {
-    color: white;
-    background-color: brown;
-}
-
 form button:hover {
     background-color: #4ADE80;
     color: black;
-}
-
-button:focus {
-    outline: solid;
-    outline-color: brown;
 }
 
 form button:focus {
@@ -242,4 +214,19 @@ form button:focus {
 
 #veil.on {
     display: block;
+}
+
+@media (min-width: 700px) {
+    .card-buttons .is-read[status="read"]:hover {
+        background-color: #4ADE80;
+    }
+
+    .card-buttons .is-read[status="not-read"]:hover {
+        background-color: #FB7185;
+    }
+
+    button:hover {
+        color: white;
+        background-color: brown;
+    }
 }

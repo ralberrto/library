@@ -16,7 +16,7 @@ const displayController = (function() {
         }
 
         get info() {
-            if ( this.isRead ) { read = "read" } else { read = "not read yet" }
+            let read = this.isRead ? "read" : "not read yet";
             return `The ${this.title} by ${this.author}, ${this.pages} pages, ${read}.`;
         }
 
@@ -185,4 +185,5 @@ const displayController = (function() {
         setButtonAttributes(this, status, index);
     }
 
+    return {Book};
 })();

@@ -1,12 +1,30 @@
 const logicController = (function() {
     function addBookToLibrary(bookObject) {
-        myLibrary.push(bookObject)
+        _myLibrary.push(bookObject)
     }
 
     return {addBookToLibrary}
 })();
 
 const displayController = (function() {
+    class Book {
+        constructor(title, author, pages, isRead) {
+            this.title = title;
+            this.author = author;
+            this.pages = pages;
+            this.isRead = isRead;
+        }
+
+        get info() {
+            if ( this.isRead ) { read = "read" } else { read = "not read yet" }
+            return `The ${this.title} by ${this.author}, ${this.pages} pages, ${read}.`;
+        }
+
+        switchStatus() {
+            this.isRead = !this.isRead;
+        }
+    }
+
     class Card {
         constructor(entry) {
             this.entry = entry;
@@ -62,13 +80,13 @@ const displayController = (function() {
                 value = this.entry.isRead ? "read" : "not-read";
                 buttonElement.setAttribute("status", value);
             }
-            buttonElement.setAttribute("index", "i" + String(myLibrary.indexOf(this.entry)));
+            buttonElement.setAttribute("index", "i" + String(_myLibrary.indexOf(this.entry)));
             buttonElement.setAttribute("type", "button");
         }
 
     }
 
-    let myLibrary = [new Book("Republica", "Platón", 1081, true),
+    let _myLibrary = [new Book("Republica", "Platón", 1081, true),
         new Book("Robinson Crusoe", "Daniel Defoe", 701, false),
         new Book("El Discurso del Método", "René Descartes", 982, false)];
 
@@ -141,8 +159,8 @@ const displayController = (function() {
     function displayCards() {
         let card, entry;
         clearCardContainer();
-        for ( let i = 0 ; i < myLibrary.length ; i++ ) {
-            entry = myLibrary[i];
+        for ( let i = 0 ; i < _myLibrary.length ; i++ ) {
+            entry = _myLibrary[i];
             card = new Card(entry);
             cardContainer.appendChild(card.card);
         }
@@ -151,8 +169,8 @@ const displayController = (function() {
 
     function removeCard() {
         let index = Number(this.getAttribute("index").substring(1));
-        myLibrary.splice(index, 1);
-        console.table(myLibrary);
+        _myLibrary.splice(index, 1);
+        console.table(_myLibrary);
         displayCards();
     }
 
@@ -162,25 +180,9 @@ const displayController = (function() {
 
     function switchReadStatus() {
         let index = Number(this.getAttribute("index").substring(1));
-        let card = myLibrary[index];
+        let card = _myLibrary[index];
         let status = card.switchStatus();
         setButtonAttributes(this, status, index);
     }
 
 })();
-
-function Book(title, author, pages, isRead) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.isRead = isRead;
-    this.info = () => {
-        if ( this.isRead ) { read = "read" } else { read = "not read yet" }
-        return `The ${this.title} by ${this.author}, ${this.pages} pages, ${read}.`;
-    };
-    this.switchStatus = () => {
-        if (this.isRead ) { this.isRead = false; }
-        else { this.isRead = true; }
-        return this.isRead;
-    }
-}

@@ -2,39 +2,47 @@ let myLibrary = [new Book("Republica", "Platón", 1081, true),
     new Book("Robinson Crusoe", "Daniel Defoe", 701, false),
     new Book("El Discurso del Método", "René Descartes", 982, false)];
 
+const logicController = (function() {
+    function addBookToLibrary(bookObject) {
+        myLibrary.push(bookObject)
+    }
+
+    return {addBookToLibrary}
+})();
 
 const displayController = (function() {
     const cardContainer = document.getElementById("card-cont");
     const veil = document.getElementById("veil");
-    const addModal = document.getElementById("add-modal");
-    const addBtn = document.getElementById("add-btn");
-    const addBookForm = document.getElementById("add-book");
-    const addBookInputs = Array.from(document.querySelectorAll("#add-book input"));
-    const commonInputs = addBookInputs.filter(x => x.type !== "checkbox");
+    const modal = document.getElementById("add-modal");
+    const newBookBtn = document.getElementById("add-btn");
+    const formBtn = document.getElementById("add-book");
+    const modalInputs = Array.from(document.querySelectorAll("#add-book input"));
+    const commonInputs = modalInputs.filter(x => x.type !== "checkbox");
 
     displayCards()
 
-    addBtn.addEventListener("click", toggleAddBookModal);
+    newBookBtn.addEventListener("click", toggleAddBookModal);
     veil.addEventListener("click", toggleAddBookModal);
 
-    addBookForm.addEventListener("submit", (event) => {
+    formBtn.addEventListener("submit", _submitForm);
+
+    function _submitForm(event) {
         event.preventDefault();
-        if ( submitForm(commonInputs) ) {
+        if (validateForm(commonInputs)) {
             commonInputs.forEach(x => x.classList.remove("attempted"));
+            let newBook = captureBookInput();
+            logicController.addBookToLibrary(newBook);
+            displayCards();
+            addEventsToCardButtons();
+            toggleAddBookModal(undefined, true);
         }
         else {
             commonInputs.forEach(x => x.classList.add("attempted"));
         }
-    });
+    }
 
-    function submitForm(requiredInputElements) {
-        let isFormValid = requiredInputElements.every(isValid);
-        if ( isFormValid ) {
-            //addBookInputs.map(x => { console.log(takeContentFromElement(x)) });
-            let newBook = captureBookInput();
-            addBookToLibrary(newBook);
-            toggleAddBookModal(undefined, true);
-        }
+    function validateForm(requiredInputElements) {
+        let isFormValid = requiredInputElements.every((element) => element.validity.valid);
         return isFormValid;
     }
 
@@ -55,21 +63,10 @@ const displayController = (function() {
         else { return element.value.trim(); }
     }
 
-    function addBookToLibrary(bookObject) {
-        myLibrary.push(bookObject)
-        clearCardContainer();
-        displayCards();
-        addEventsToCardButtons();
-    }
-
-    function isValid(inputElement) {
-        return inputElement.validity.valid;
-    }
-
     function toggleAddBookModal(event, reset = false) {
         veil.classList.toggle("on");
-        addModal.classList.toggle("on");
-        reset ? addBookForm.reset() : undefined;
+        modal.classList.toggle("on");
+        if (reset) {formBtn.reset()}
     }
 
     addEventsToCardButtons();

@@ -1,7 +1,3 @@
-let myLibrary = [new Book("Republica", "Platón", 1081, true),
-    new Book("Robinson Crusoe", "Daniel Defoe", 701, false),
-    new Book("El Discurso del Método", "René Descartes", 982, false)];
-
 const logicController = (function() {
     function addBookToLibrary(bookObject) {
         myLibrary.push(bookObject)
@@ -11,6 +7,71 @@ const logicController = (function() {
 })();
 
 const displayController = (function() {
+    class Card {
+        constructor(entry) {
+            this.entry = entry;
+            this.attr = ["title", "author", "pages"];
+            this.attrDisp = ["título", "autor", "páginas"];
+            this.card = document.createElement("div");
+            this._addAttributes();
+            for (let i in this.attr) {
+                this._appendField(this.attrDisp[i],  this.attr[i]);
+            }
+            this._addButtons();
+        }
+
+        _addAttributes() {
+            this.card.classList.add("card");
+        }
+
+        _appendField(fieldTitle, fieldName) {
+            let field = document.createElement("p");
+            let value = document.createElement("p");
+
+            field.classList.toggle("field-name");
+            field.textContent = fieldTitle; 
+            this.card.appendChild(field);
+
+            value.classList.toggle("field-value");
+            if (fieldName === "title") {value.classList.toggle("title")};
+            value.textContent = this.entry[fieldName];
+            this.card.appendChild(value);
+        }
+
+        _addButtons() {
+            let wrapper, isReadBtn, removeBtn;
+            wrapper = document.createElement("div");
+            wrapper.classList.add("card-buttons");
+            isReadBtn = document.createElement("button");
+            removeBtn = document.createElement("button");
+            isReadBtn.classList.add("is-read");
+            removeBtn.classList.add("remove");
+            this._setButtonAttributes(isReadBtn);
+            this._setButtonAttributes(removeBtn);
+            removeBtn.textContent = "Eliminar";
+            wrapper.appendChild(isReadBtn);
+            wrapper.appendChild(removeBtn);
+
+            this.card.appendChild(wrapper);
+        }
+
+        _setButtonAttributes(buttonElement) {
+            let value;
+            if ( Array.from(buttonElement.classList).some(x => x === "is-read") ) {
+                buttonElement.textContent = this.entry.isRead ? "Leído" : "No leído";
+                value = this.entry.isRead ? "read" : "not-read";
+                buttonElement.setAttribute("status", value);
+            }
+            buttonElement.setAttribute("index", "i" + String(myLibrary.indexOf(this.entry)));
+            buttonElement.setAttribute("type", "button");
+        }
+
+    }
+
+    let myLibrary = [new Book("Republica", "Platón", 1081, true),
+        new Book("Robinson Crusoe", "Daniel Defoe", 701, false),
+        new Book("El Discurso del Método", "René Descartes", 982, false)];
+
     const cardContainer = document.getElementById("card-cont");
     const veil = document.getElementById("veil");
     const modal = document.getElementById("add-modal");
@@ -21,8 +82,8 @@ const displayController = (function() {
 
     displayCards()
 
-    newBookBtn.addEventListener("click", toggleAddBookModal);
-    veil.addEventListener("click", toggleAddBookModal);
+    newBookBtn.addEventListener("click", toggleModal);
+    veil.addEventListener("click", toggleModal);
 
     formBtn.addEventListener("submit", _submitForm);
 
@@ -33,8 +94,7 @@ const displayController = (function() {
             let newBook = captureBookInput();
             logicController.addBookToLibrary(newBook);
             displayCards();
-            addEventsToCardButtons();
-            toggleAddBookModal(undefined, true);
+            toggleModal(undefined, true);
         }
         else {
             commonInputs.forEach(x => x.classList.add("attempted"));
@@ -63,7 +123,7 @@ const displayController = (function() {
         else { return element.value.trim(); }
     }
 
-    function toggleAddBookModal(event, reset = false) {
+    function toggleModal(event, reset = false) {
         veil.classList.toggle("on");
         modal.classList.toggle("on");
         if (reset) {formBtn.reset()}
@@ -83,23 +143,14 @@ const displayController = (function() {
         clearCardContainer();
         for ( let i = 0 ; i < myLibrary.length ; i++ ) {
             entry = myLibrary[i];
-            card = document.createElement("div");
-            card.classList.add("card");
-            
-            appendField(card, entry, "título", "title");
-            appendField(card, entry, "autor", "author");
-            appendField(card, entry, "páginas", "pages");
-        
-            addButtons(card, entry, i)
-        
-            cardContainer.appendChild(card);
+            card = new Card(entry);
+            cardContainer.appendChild(card.card);
         }
         addEventsToCardButtons();
     }
 
     function removeCard() {
         let index = Number(this.getAttribute("index").substring(1));
-        console.table(myLibrary)
         myLibrary.splice(index, 1);
         console.table(myLibrary);
         displayCards();
@@ -107,49 +158,6 @@ const displayController = (function() {
 
     function clearCardContainer() {
         cardContainer.innerHTML = "";
-    }
-
-    function appendField(element, entry, fieldTitle, fieldName) {
-        let field = document.createElement("p");
-        let value = document.createElement("p");
-
-        field.classList.toggle("field-name");
-        field.textContent = fieldTitle; 
-        element.appendChild(field);
-
-        value.classList.toggle("field-value");
-        fieldName === "title" ? value.classList.toggle("title") : undefined;
-        value.textContent = entry[fieldName];
-        element.appendChild(value);
-    }
-
-    function addButtons(element, entry, index) {
-        let div, isReadBtn, removeBtn;
-        div = document.createElement("div");
-        div.classList.add("card-buttons");
-        isReadBtn = document.createElement("button");
-        removeBtn = document.createElement("button");
-        isReadBtn.classList.add("is-read");
-        removeBtn.classList.add("remove");
-        setButtonAttributes(isReadBtn, entry.isRead, index);
-        setButtonAttributes(removeBtn, undefined, index);
-        removeBtn.textContent = "Eliminar";
-        isReadBtn.setAttribute("type", "button");
-        removeBtn.setAttribute("type", "button");
-        div.appendChild(isReadBtn);
-        div.appendChild(removeBtn);
-
-        element.appendChild(div);
-    }
-
-    function setButtonAttributes(buttonElement, status, index) {
-        let value;
-        if ( Array.from(buttonElement.classList).some(x => x === "is-read") ) {
-            buttonElement.textContent = status ? "Leído" : "No leído";
-            value = status ? "read" : "not-read";
-            buttonElement.setAttribute("status", value);
-        }
-        buttonElement.setAttribute("index", "i" + String(index));
     }
 
     function switchReadStatus() {

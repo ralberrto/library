@@ -1,11 +1,3 @@
-const logicController = (function() {
-    function addBookToLibrary(bookObject) {
-        _myLibrary.push(bookObject)
-    }
-
-    return {addBookToLibrary}
-})();
-
 const displayController = (function() {
     class Book {
         constructor(title, author, pages, isRead) {
@@ -26,23 +18,30 @@ const displayController = (function() {
     }
 
     class Card {
+        static resetAttributes() {
+            for (let card of _cardLibrary) {
+                card._setButtonAttributes(card.isReadBtn);
+                card._setButtonAttributes(card.removeBtn);
+            }
+        }
+
         constructor(entry) {
             this.entry = entry;
             this.attr = ["title", "author", "pages"];
             this.attrDisp = ["título", "autor", "páginas"];
             this.card = document.createElement("div");
-            this._addAttributes();
+            this.#addAttributes();
             for (let i in this.attr) {
-                this._appendField(this.attrDisp[i],  this.attr[i]);
+                this.#appendField(this.attrDisp[i],  this.attr[i]);
             }
-            this._addButtons();
+            [this.isReadBtn, this.removeBtn] = this.#addButtons();
         }
 
-        _addAttributes() {
+        #addAttributes() {
             this.card.classList.add("card");
         }
 
-        _appendField(fieldTitle, fieldName) {
+        #appendField(fieldTitle, fieldName) {
             let field = document.createElement("p");
             let value = document.createElement("p");
 
@@ -56,39 +55,70 @@ const displayController = (function() {
             this.card.appendChild(value);
         }
 
-        _addButtons() {
+        #addButtons() {
             let wrapper, isReadBtn, removeBtn;
             wrapper = document.createElement("div");
             wrapper.classList.add("card-buttons");
+
             isReadBtn = document.createElement("button");
-            removeBtn = document.createElement("button");
             isReadBtn.classList.add("is-read");
-            removeBtn.classList.add("remove");
+            isReadBtn.addEventListener("click", this.#switchReadStatus);
             this._setButtonAttributes(isReadBtn);
+
+            removeBtn = document.createElement("button");
+            removeBtn.classList.add("remove");
+            removeBtn.addEventListener("click", this.#removeCard);
             this._setButtonAttributes(removeBtn);
             removeBtn.textContent = "Eliminar";
+
             wrapper.appendChild(isReadBtn);
             wrapper.appendChild(removeBtn);
 
             this.card.appendChild(wrapper);
+            return [isReadBtn, removeBtn];
+        }
+
+        #removeCard() {
+            let index = Number(this.getAttribute("index").substring(1));
+            _library.splice(index, 1);
+            _cardLibrary.splice(index, 1);
+            displayCards();
+            Card.resetAttributes();
+        }
+
+        #switchReadStatus() {
+            let index = Number(this.getAttribute("index").substring(1));
+            let card = _cardLibrary[index];
+            card.entry.switchStatus();
+            card._setButtonAttributes(this);
         }
 
         _setButtonAttributes(buttonElement) {
             let value;
-            if ( Array.from(buttonElement.classList).some(x => x === "is-read") ) {
+            if (Array.from(buttonElement.classList).some(x => x === "is-read")) {
                 buttonElement.textContent = this.entry.isRead ? "Leído" : "No leído";
                 value = this.entry.isRead ? "read" : "not-read";
                 buttonElement.setAttribute("status", value);
             }
-            buttonElement.setAttribute("index", "i" + String(_myLibrary.indexOf(this.entry)));
+            buttonElement.setAttribute("index", "i" + String(_library.indexOf(this.entry)));
             buttonElement.setAttribute("type", "button");
         }
 
     }
 
-    let _myLibrary = [new Book("Republica", "Platón", 1081, true),
+    const _library = [new Book("Republica", "Platón", 1081, true),
         new Book("Robinson Crusoe", "Daniel Defoe", 701, false),
         new Book("El Discurso del Método", "René Descartes", 982, false)];
+
+    const _makePreexistentCards = function() {
+        const cardLibrary = [];
+        for (let entry of _library) {
+            cardLibrary.push(new Card(entry));
+        }
+        return cardLibrary;
+    };
+
+    const _cardLibrary = _makePreexistentCards();
 
     const cardContainer = document.getElementById("card-cont");
     const veil = document.getElementById("veil");
@@ -110,7 +140,7 @@ const displayController = (function() {
         if (validateForm(commonInputs)) {
             commonInputs.forEach(x => x.classList.remove("attempted"));
             let newBook = captureBookInput();
-            logicController.addBookToLibrary(newBook);
+            addBookToLibrary(newBook);
             displayCards();
             toggleModal(undefined, true);
         }
@@ -147,43 +177,18 @@ const displayController = (function() {
         if (reset) {formBtn.reset()}
     }
 
-    addEventsToCardButtons();
-
-    function addEventsToCardButtons() {
-        const removeBtns = Array.from(document.querySelectorAll(".card .remove"));
-        removeBtns.forEach(element => element.addEventListener("click", removeCard))
-        const isReadBtns = Array.from(document.querySelectorAll(".card .is-read"));
-        isReadBtns.forEach(element => element.addEventListener("click", switchReadStatus));
-    }
-
     function displayCards() {
-        let card, entry;
         clearCardContainer();
-        for ( let i = 0 ; i < _myLibrary.length ; i++ ) {
-            entry = _myLibrary[i];
-            card = new Card(entry);
-            cardContainer.appendChild(card.card);
-        }
-        addEventsToCardButtons();
-    }
-
-    function removeCard() {
-        let index = Number(this.getAttribute("index").substring(1));
-        _myLibrary.splice(index, 1);
-        console.table(_myLibrary);
-        displayCards();
+        for (let card of _cardLibrary) {cardContainer.appendChild(card.card);}
     }
 
     function clearCardContainer() {
         cardContainer.innerHTML = "";
     }
 
-    function switchReadStatus() {
-        let index = Number(this.getAttribute("index").substring(1));
-        let card = _myLibrary[index];
-        let status = card.switchStatus();
-        setButtonAttributes(this, status, index);
+    function addBookToLibrary(bookObject) {
+        _library.push(bookObject);
+        _cardLibrary.push(new Card(bookObject));
     }
 
-    return {Book};
 })();
